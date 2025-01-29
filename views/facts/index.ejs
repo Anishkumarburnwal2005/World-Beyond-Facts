@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Beyond Facts</title>
+</head>
+<body>
+    <h1>All facts</h1>
+    <br>
+    <form method="GET" action="/facts/new">
+        <button>Generate a new fact</button>
+    </form>
+    <ul>
+        <%for(let fact of allFacts){%>
+            <li><a href="/facts/<%=fact.id%>"><p><%=fact.category%></p></a></li>
+        <%}%>
+    </ul>
+</body>
+</html>

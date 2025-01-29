@@ -15,15 +15,14 @@ async function main() {
 };
 
 
-const initDb = async () => {
+const initDB = async () => {
     await Facts.deleteMany({});
     await Facts.insertMany(initData.data);
-    console.log("Data was initialized");
 };
 
-initDb()
+initDB()
 .then(() => {
-    console.log("Databse was connected successfully");
+    console.log("Data was initialized");
 })
 .catch((err) => {
     console.log(err);

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Facts</title>
+</head>
+<body>
+    <h2>Discover the awesome fact: </h2>
+    <br>
+    <form method="POST" action="/facts/create ">
+        <lable for="fact">Fact: </lable>
+        <input type="text" placeholder="short description about your facts" name="fact" id="fact">
+        <br><br>
+        <lable for="category">Category: </lable>
+        <input type="text" placeholder="define your category" name="category" id="category">
+        <br><br>
+        <lable for="source">Source: </lable>
+        <input type="text" placeholder="source of your fact" name="source" id="source">
+        <br><br>
+        <lable for="data">Discovered data: </lable>
+        <textarea placeholder="describe your awesome fact" name="data" rows="3" cols="30" id="data"></textarea>
+        <br><br>
+        <lable for="verified">Is the fact was verified: </lable>
+        <input type="text" id="verified" name=" Is it verified or not">
+        <br><br>
+        <lable for="addedBy">Name of Knowledge Hunter: </lable>
+        <input type="text" id="addedBy" placeholder="enter the name of researcher" name="addedBy">
+        <br><br>
+        <lable for="created">Date of discovery: </lable>
+        <input type="date" id="create" name="created">
+        <br><br>
+        <lable for="updated">Updated at: </lable>
+        <input type="date" id="updated" name="updated">
+        <br><br>
+        <button>Submit</button>
+    </form>
+</body>
+</html>
