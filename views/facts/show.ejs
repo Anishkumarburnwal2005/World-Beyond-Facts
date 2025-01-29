@@ -15,8 +15,15 @@
         <li><b>Discovered data: </b><%= fact.data_discovered%></li>
         <li><b>Verified: </b><%= fact.is_verified%></li>
         <li><b>Discover by: </b><%= fact.added_by%></li>
-        <li><b>Discover at: </b><%= fact.created_at.toString().split(" ").slice(0, 5).join("-")%></li>
-        <li><b>Updated at: </b><%= fact.updated_at.toString().split(" ").slice(0, 5).join("-")%></li>
+        <li><b>Discover at: </b><%= fact.created_at%></li>
+        <li><b>Updated at: </b><%= fact.updated_at%></li>
     </ul>
+    <br>
+    <form method="GET" action="/facts/edit/<%=fact._id%>">
+        <button>Edit</button>
+    </form>
+    <form method="POST" action="/facts/delete/<%=fact._id%>?_method=Delete">
+        <button>Delete</button>
+    </form>
 </body>
 </html>
