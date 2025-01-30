@@ -8,6 +8,9 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({extended:true}));
 const methodOverride = require("method-override");
 app.use(methodOverride("_method"));
+const ejsMate = require("ejs-mate");
+app.engine("ejs", ejsMate);
+app.use(express.static(path.join(__dirname, "/public")));
 
 main()
 .then(() => {
@@ -45,8 +48,7 @@ app.post("/facts/create",async (req, res) => {
         created_at: created,
         updated_at: updated
     });
-    const babu = await fact1.save();
-    console.log(babu);
+    await fact1.save();
     res.redirect("/facts");
 
     // const newFact = await new Facts(req.body.fact);

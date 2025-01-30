@@ -22,9 +22,13 @@ const factSchema = new Schema({
         type: String,
         require: true,
     },
-    created_at: Date,
+    created_at:{
+        type: Date,
+        defalut:null,
+    },
     updated_at: {
         type: Date,
+        default:null
     }
 });
 

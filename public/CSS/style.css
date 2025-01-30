@@ -1,0 +1,47 @@
+  /* navbar */
+.navbar{
+    height:5rem;
+    background-color: white;
+}
+
+/* icon */
+.fa{
+    color: blue;
+    font-size: 2.3rem;
+}
+
+.nav-link{
+    color:#222222 !important;
+}
+
+  /* Footer */
+
+.f-info-links a{
+    text-decoration: none;
+    color: #222222;
+}
+
+.f-info-links a:hover{
+    text-decoration: underline;
+}
+
+.f-info-links, .f-info-socials{
+    width: 100%;
+}
+
+
+
+.f-info-socials i{
+    margin-right :0.9rem;
+    font-size: 1.6rem;
+}
+
+.f-info{
+    text-align: center;
+    height: 8rem;
+    background-color: #ebebeb;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+}

@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facts details</title>
-</head>
+
+<% layout("/layout/boilerPlate.ejs")%>
+
+
 <body>
-    <h2>Fact details: </h2>
+    <h3>Fact details: </h3>
     <br>
     <ul>
         <li><b>Fact: </b><%= fact.fact%></li>
@@ -15,8 +12,8 @@
         <li><b>Discovered data: </b><%= fact.data_discovered%></li>
         <li><b>Verified: </b><%= fact.is_verified%></li>
         <li><b>Discover by: </b><%= fact.added_by%></li>
-        <li><b>Discover at: </b><%= fact.created_at%></li>
-        <li><b>Updated at: </b><%= fact.updated_at%></li>
+        <li><b>Discover at: </b><%= fact.created_at ? fact.created_at.toString().split(" ").slice(0, 4).join("-") : "No Record Found"%></li>
+        <li><b>Updated at: </b><%=fact.updated_at ? fact.updated_at.toString().split(" ").slice(0, 4).join("-") : "Further Modification Not Done Yet"%></li>
     </ul>
     <br>
     <form method="GET" action="/facts/edit/<%=fact._id%>">
@@ -26,4 +23,3 @@
         <button>Delete</button>
     </form>
 </body>
-</html>
