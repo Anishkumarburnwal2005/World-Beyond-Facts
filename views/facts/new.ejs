@@ -1,42 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>World-Beyond-Facts</title>
-</head>
+
+<!-- <% layout("/layout/boilerPlate.ejs")%> -->
+
 <body>
     <h2>Discover the awesome fact: </h2>
     <br>
     <form method="POST" action="/facts/create ">
-        <lable for="fact">Fact: </lable>
-        <input type="text" placeholder="short description about your facts" name="fact" id="fact">
-        <br><br>
-        <lable for="category">Category: </lable>
-        <input type="text" placeholder="define your category" name="category" id="category">
-        <br><br>
-        <lable for="source">Source: </lable>
-        <input type="text" placeholder="source of your fact" name="source" id="source">
-        <br><br>
-        <lable for="data">Discovered data: </lable>
-        <textarea placeholder="describe your awesome fact" name="data" rows="3" cols="30" id="data"></textarea>
-        <br><br>
-        <lable for="image">Related_Img: </lable>
-        <input type="text" id="image" placeholder="enter the image link" name="image">
-        <br><br>
-        <lable for="verified">Verified status: </lable>
-        <input type="text" id="verified" name="verified" placeholder="Is it verified or not">
-        <br><br>
-        <lable for="addedBy">Name of Knowledge Hunter: </lable>
-        <input type="text" id="addedBy" placeholder="enter the name of researcher" name="addedBy">
-        <br><br>
-        <lable for="created">Date of discovery: </lable>
-        <input type="date" id="create" name="created">
-        <br><br>
-        <lable for="updated">Updated at: </lable>
-        <input type="date" id="updated" name="updated">
+        <div class="mb-3">
+            <label for="facts" class="form-label">Fact: </label>
+            <input type="text" id="facts" placeholder="short description about your facts" name="fact"  class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <label for="categorys" class="form-label">Category: </label>
+            <input type="text" placeholder="define your category" name="category" id="categorys" class="form-control">
+        </div>
+       
+        <div class="mb-3">
+            <label for="sources" class="form-label">Source: </label>
+            <input type="text" placeholder="source of your fact" name="source" id="sources" class="form-control">
+        </div>
+       
+        <div class="mb-3">
+            <label for="datas" class="form-label">Discovered data: </label>
+            <textarea placeholder="describe your awesome fact" name="data" rows="3" cols="30" id="datas" class="form-control"></textarea>
+        </div>
+       
+        <div class="mb-3">
+            <label for="images" class="form-label">Related_Img: </label>
+            <input type="text" id="images" placeholder="enter the image link" name="image" class="form-control">
+        </div>
+       
+        <div class="mb-3">
+            <label for="verifieds" class="form-label">Verified status: </label>
+            <input type="text" id="verifieds" name="verified" placeholder="Is it verified or not" class="form-control">
+        </div>
+      
+        <div class="mb-3">
+            <label for="addedBys" class="form-label">Name of Knowledge Hunter: </label>
+            <input type="text" id="addedBys" placeholder="enter the name of researcher" name="addedBy" class="form-control">
+        </div>
+       
+        <div class="mb-3">
+            <label for="creates" class="form-label">Date of discovery: </label>
+            <input type="date" id="creates" name="created" class="form-control">
+        </div>
+    
+        <div class="mb-3">
+            <label for="updateds" class="form-label">Updated at: </label>
+            <input type="date" id="updateds" name="updated" class="form-control">
+        </div>
         <br><br>
         <button>Submit</button>
     </form>
 </body>
-</html>
