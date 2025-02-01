@@ -3,23 +3,46 @@
 
 
 <body>
-    <h3>Fact details: </h3>
-    <br>
-    <ul>
-        <li><b>Fact: </b><%= fact.fact%></li>
-        <li><b>Category: </b><%= fact.category%></li>
-        <li><b>Source: </b><%= fact.source %></li>
-        <li><b>Discovered data: </b><%= fact.data_discovered%></li>
-        <li><b>Verified: </b><%= fact.is_verified%></li>
-        <li><b>Discover by: </b><%= fact.added_by%></li>
-        <li><b>Discover at: </b><%= fact.created_at ? fact.created_at.toString().split(" ").slice(0, 4).join("-") : "No Record Found"%></li>
-        <li><b>Updated at: </b><%=fact.updated_at ? fact.updated_at.toString().split(" ").slice(0, 4).join("-") : "Further Modification Not Done Yet"%></li>
-    </ul>
-    <br>
-    <form method="GET" action="/facts/edit/<%=fact._id%>">
-        <button>Edit</button>
-    </form>
-    <form method="POST" action="/facts/delete/<%=fact._id%>?_method=Delete">
-        <button>Delete</button>
-    </form>
+    <div class="row">
+        <div class="col-8 offset-3 mt-3">
+            <h3>Fact details </h3>
+        </div>
+        <br>
+            <div class="card col-6 offset-3 mt-3 mb-3 show-card">
+                <img src="<%= fact.related_img%>" class="card-img-top show_img" alt="fact_show_img">
+                <div class="card-body mt-3">
+                    <p class="card-text">
+                        <div class="mt-2"><b>Fact: </b><%= fact.fact%><br></div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <b>Category: </b><%= fact.category%><br>
+                            </div>
+
+                            <div class="col-md-6">
+                                <b>Source: </b><%= fact.source %><br>
+                            </div>
+                        </div>
+                        <b>Discovered data: </b><%= fact.data_discovered%><br>
+                        <b>Verified: </b><%= fact.is_verified != null ? fact.is_verified : "Not Specified" %><br>
+                        <b>Discover by: </b><%= fact.added_by%><br>
+                        <b>Discover at: </b><%= fact.created_at ? fact.created_at.toString().split(" ").slice(0, 4).join("-") : "No Record Found"%><br>
+                        <b>Updated at: </b><%=fact.updated_at ? fact.updated_at.toString().split(" ").slice(0, 4).join("-") : "Further Modification Not Done Yet"%>
+                    </p>
+                </div>
+            </div>
+        <br>
+        <div class="show-btns mb-5">
+            <div class="col-md-1 offset-3">
+                <form method="GET" action="/facts/edit/<%=fact._id%>">
+                    <button class="btn btn-primary">Edit</button>
+                </form>
+            </div>
+
+            <div class="col-md-2">
+                <form method="POST" action="/facts/delete/<%=fact._id%>?_method=Delete">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>

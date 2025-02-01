@@ -11,6 +11,9 @@ app.use(methodOverride("_method"));
 const ejsMate = require("ejs-mate");
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
+const wrapAsync = require("./utils/wrapAsync.js");
+const ExpressError = require("./utils/ExpressError.js");  
+const {factSchema} = require("./schema.js");
 
 main()
 .then(() => {
@@ -36,18 +39,26 @@ app.get("/facts/new", (req, res) => {
 });
 
 //Create route
-app.post("/facts/create",async (req, res) => {
-    const {fact, category, source, data, verified, addedBy, created, updated} = req.body;
+app.post("/facts/create", wrapAsync(async (req, res) => {
+    const {fact, category, source, data, addedBy, created, updated} = req.body;
+
+    let result = factSchema.validate(req.body);
+    console.log(result);
+    if(result.error){
+        throw new ExpressError(400, result.error);
+    }
+
     const fact1 = new Facts({
         fact: fact,
         category: category,
         source: source,
         data_discovered: data,
-        is_verified: verified,
+        is_verified: req.body.is_verified ? ["true", "yes", "1"].includes(req.body.is_verified.toLowerCase()) : false,
         added_by: addedBy,
         created_at: created,
         updated_at: updated
     });
+
     await fact1.save();
     res.redirect("/facts");
 
@@ -55,49 +66,68 @@ app.post("/facts/create",async (req, res) => {
     // await newFact.save();
     // console.log(newFact);
     // res.redirect("/facts");
-});
+}));
 
 //Show route
-app.get("/facts/:id",async (req, res) => {
+app.get("/facts/:id", wrapAsync(async (req, res) => {
     const {id} = req.params;
     const fact = await Facts.findById(id);
     res.render("facts/show.ejs", {fact}); 
-});
+}));
 
 //Edit route
-app.get("/facts/edit/:id",async (req, res) => {
+app.get("/facts/edit/:id", wrapAsync(async (req, res) => {
     const {id} = req.params;
     const fact = await Facts.findById(id);
     res.render("facts/edit.ejs", {fact});
-});
+}));
 
 //Update route
-app.put("/facts/:id",async (req, res) => {
+app.put("/facts/:id", wrapAsync(async (req, res) => {
     const {id} = req.params;
-    const {fact, category, source, data, verified, addedBy, updated} = req.body;
+    const {fact, category, source, data, addedBy, updated, image} = req.body;
+    
+    let result2 = factSchema.validate(req.body);
+    //console.log(result);
+    if(result2.error){
+        throw new ExpressError(400, result2.error);
+    }
+
     await Facts.findByIdAndUpdate(id, {
         fact: fact,
         category: category,
         source: source,
+        related_img: image,
         data_discovered: data,
-        is_verified: verified,
+        is_verified: req.body.is_verified ? ["true", "yes", "1"].includes(req.body.is_verified.toLowerCase()) : false,
         added_by: addedBy,
         updated_at: updated
     });
-    res.redirect("/facts");
-});
+
+    res.redirect(`/facts/${id}`);
+}));
 
 //Delete route
-app.delete("/facts/delete/:id",async (req, res) => {
+app.delete("/facts/delete/:id", wrapAsync(async (req, res) => {
     const {id} = req.params;
-    await Facts.findByIdAndDelete(id);
+    const impFact = await Facts.findByIdAndDelete(id);
+    console.log(impFact);
     res.redirect("/facts");
-});
+}));
 
 //root route
 app.get("/", (req, res) => {
     res.send("Working");
 });
+
+app.get("*", (req, res, next) => {
+    next(new ExpressError(404, "Page not found."));
+})
+
+app.use((err, req, res, next) => {
+    const {statusCode=500, message="Something went wrong."} = err;
+    res.status(statusCode).render("errorPage/error.ejs" ,{message});
+})
 
 app.listen(8080, () => {
     console.log("Server is listening on port 8080");

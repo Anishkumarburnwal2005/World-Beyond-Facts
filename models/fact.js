@@ -16,7 +16,8 @@ const factSchema = new Schema({
     data_discovered: String,
     is_verified: {
         type: Boolean,
-        require: true,
+        require:true,
+        default:false,
     },
     added_by: {
         type: String,
