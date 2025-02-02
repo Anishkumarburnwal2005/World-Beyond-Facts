@@ -6,6 +6,7 @@ const path = require("path");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({extended:true}));
+app.use(express.json());
 const methodOverride = require("method-override");
 app.use(methodOverride("_method"));
 const ejsMate = require("ejs-mate");
@@ -15,6 +16,24 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");  
 const {factSchema} = require("./schema.js");
 
+let validateListing = (req, res, next) => {
+
+    if(req.body.factValidation && req.body.factValidation.is_verified){
+        req.body.factValidation.is_verified = ["yes", "true", "1"].includes(req.body.factValidation.is_verified.toLowerCase());
+    }else{
+        req.body.factValidation.is_verified = false;
+    }
+
+    //console.log(req.body.factValidation.is_verified);
+    let {error} = factSchema.validate(req.body);
+    //console.log(error);
+    if(error){
+        throw new ExpressError(400, error.details[0].message);
+    }else{
+        next();
+    }
+}
+
 main()
 .then(() => {
     console.log("Databse was connected successfully");
@@ -22,6 +41,7 @@ main()
 .catch((err) => {
     console.log(err);
 });
+
 
 async function main() {
     await mongoose.connect("mongodb://127.0.0.1:27017/factVault");
@@ -39,24 +59,18 @@ app.get("/facts/new", (req, res) => {
 });
 
 //Create route
-app.post("/facts/create", wrapAsync(async (req, res) => {
-    const {fact, category, source, data, addedBy, created, updated} = req.body;
-
-    let result = factSchema.validate(req.body);
-    console.log(result);
-    if(result.error){
-        throw new ExpressError(400, result.error);
-    }
+app.post("/facts/create", validateListing, wrapAsync(async (req, res) => {
+    const {fact, category, source, data_discovered, added_by, created_at} = req.body.factValidation;
 
     const fact1 = new Facts({
         fact: fact,
         category: category,
         source: source,
-        data_discovered: data,
-        is_verified: req.body.is_verified ? ["true", "yes", "1"].includes(req.body.is_verified.toLowerCase()) : false,
-        added_by: addedBy,
-        created_at: created,
-        updated_at: updated
+        data_discovered: data_discovered,
+        is_verified: req.body.factValidation.is_verified,
+        added_by: added_by,
+        created_at: created_at,
+        created_at: created_at,
     });
 
     await fact1.save();
@@ -83,25 +97,19 @@ app.get("/facts/edit/:id", wrapAsync(async (req, res) => {
 }));
 
 //Update route
-app.put("/facts/:id", wrapAsync(async (req, res) => {
+app.put("/facts/:id", validateListing, wrapAsync(async (req, res) => {
     const {id} = req.params;
-    const {fact, category, source, data, addedBy, updated, image} = req.body;
-    
-    let result2 = factSchema.validate(req.body);
-    //console.log(result);
-    if(result2.error){
-        throw new ExpressError(400, result2.error);
-    }
+    const {fact, category, source, data_discovered, added_by, updated_at, related_img} = req.body.factValidation;
 
     await Facts.findByIdAndUpdate(id, {
         fact: fact,
         category: category,
         source: source,
-        related_img: image,
-        data_discovered: data,
-        is_verified: req.body.is_verified ? ["true", "yes", "1"].includes(req.body.is_verified.toLowerCase()) : false,
-        added_by: addedBy,
-        updated_at: updated
+        related_img: related_img,
+        data_discovered: data_discovered,
+        is_verified: req.body.factValidation.is_verified,
+        added_by: added_by,
+        updated_at: updated_at
     });
 
     res.redirect(`/facts/${id}`);

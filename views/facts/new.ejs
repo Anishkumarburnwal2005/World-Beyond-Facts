@@ -10,7 +10,7 @@
             <form method="POST" action="/facts/create" novalidate class="needs-validation">
                 <div class="mb-3">
                     <label for="fact" class="form-label">Fact: </label>
-                    <input type="text" id="fact" placeholder="short description about your facts" name="fact"  class="form-control" required>
+                    <input type="text" id="fact" placeholder="short description about your facts" name="factValidation[fact]"  class="form-control" required>
                     <div class="valid-feedback">This facts is unique.</div>
                     <div class="invalid-feedback">Enter the short description of the fact.</div>
                 </div>
@@ -18,14 +18,14 @@
                 <div class="row">
                 <div class="mb-3 col-md-5">
                     <label for="category" class="form-label">Category: </label>
-                    <input type="text" placeholder="define your category" name="category" id="category" class="form-control" required>
+                    <input type="text" placeholder="define your category" name="factValidation[category]" id="category" class="form-control" required>
                     <div class="valid-feedback">Interesting field.</div>
                     <div class="invalid-feedback">Category should be valid</div>
                 </div>
             
                 <div class="mb-3 col-md-6">
                     <label for="source" class="form-label">Source: </label>
-                    <input type="text" placeholder="source of your fact" name="source" id="source" class="form-control" >
+                    <input type="text" placeholder="source of your fact" name="factValidation[source]" id="source" class="form-control" required>
                     <div class="valid-feedback">Surprising source.</div>
                     <div class="invalid-feedback">Source should be mentioned.</div>
                 </div>
@@ -33,18 +33,18 @@
             
                 <div class="mb-3">
                     <label for="data" class="form-label">Discovered data: </label>
-                    <textarea placeholder="describe your awesome fact" name="data" rows="3" cols="30" id="data" class="form-control" required></textarea>
+                    <textarea placeholder="describe your awesome fact" name="factValidation[data_discovered]" rows="3" cols="30" id="data" class="form-control" required></textarea>
                     <div class="invalid-feedback">Description should be in detail</div>
                 </div>
             
                 <div class="mb-3">
                     <label for="image" class="form-label">Related_Img: </label>
-                    <input type="text" id="image" placeholder="enter the image link" name="image" class="form-control">
+                    <input type="text" id="image" placeholder="enter the image link" name="factValidation[related_img]" class="form-control">
                 </div>
 
                 <div class="mb-3">
                     <label for="addedBy" class="form-label">Name of Knowledge Hunter: </label>
-                    <input type="text" id="addedBy" placeholder="enter the name of researcher" name="addedBy" class="form-control" required>
+                    <input type="text" id="addedBy" placeholder="enter the name of researcher" name="factValidation[added_by]" class="form-control" required>
                     <div class="valid-feedback">Nice name</div>
                     <div class="invalid-feedback">Name should be valid</div>
                 </div>
@@ -52,15 +52,14 @@
                 <div class="row">
                     <div class="mb-3 col-md-5">
                         <label for="verified" class="form-label">Verified status: </label>
-                        <input type="text" id="verified" name="is_verified" placeholder="Is it verified or not" class="form-control" >
+                        <input type="text" id="verified" name="factValidation[is_verified]" placeholder="Is it verified or not" class="form-control" required>
                         <div class="valid-feedback">Thanks for verification</div>
                         <div class="invalid-feedback">Mention the status.</div>
                     </div>
                 
                     <div class="mb-3 col-md-5">
                         <label for="create" class="form-label">Date of discovery: </label>
-                        <input type="date" id="create" name="created" class="form-control" required>
-                        
+                        <input type="date" id="create" name="factValidation[created_at]" class="form-control" required>
                         <div class="invalid-feedback">Date should be valid</div>
                     </div>
                 </div>

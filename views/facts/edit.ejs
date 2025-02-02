@@ -10,7 +10,7 @@
         
         <div class="mb-3">
             <label for="fact" class="form-label">Fact: </label>
-            <textarea  name="fact" id="fact" rows="2" cols="40" class="form-control" required><%= fact.fact%></textarea>
+            <textarea  name="factValidation[fact]" id="fact" rows="2" cols="40" class="form-control" required><%= fact.fact%></textarea>
             <div class="valid-feedback">This facts is unique.</div>
             <div class="invalid-feedback">Enter the short description of the fact.</div>
         </div>
@@ -18,14 +18,14 @@
         <div class="row">
             <div class="mb-3 col-md-5">
                 <label for="category" class="form-label">Category: </label>
-                <input type="text" value="<%= fact.category%>" name="category" id="category" class="form-control" required>
+                <input type="text" value="<%= fact.category%>" name="factValidation[category]" id="category" class="form-control" required>
                 <div class="valid-feedback">Interesting field.</div>
                 <div class="invalid-feedback">Category should be valid</div>
             </div>
                 
             <div class="mb-3 col-md-7">
                 <label for="source" class="form-label">Source: </label>
-                <input type="text" value="<%= fact.source%>" name="source" id="source" class="form-control" required>
+                <input type="text" value="<%= fact.source%>" name="factValidation[source]" id="source" class="form-control" required>
                 <div class="valid-feedback">Surprising source.</div>
                 <div class="invalid-feedback">Source should be mentioned.</div>
             </div>
@@ -33,18 +33,18 @@
         
         <div class="mb-3">
             <label for="data" class="form-label">Discovered data: </label>
-            <textarea  name="data" rows="3" cols="30" id="data" class="form-control" required><%= fact.data_discovered%></textarea>
+            <textarea  name="factValidation[data_discovered]" rows="3" cols="30" id="data" class="form-control" required><%= fact.data_discovered%></textarea>
             <div class="invalid-feedback">Description should be in detail</div>
         </div>
         
         <div class="mb-3">
         <label for="image" class="form-label">Img_link: </label>
-        <input type="text" id="image" name="image" value="<%= fact.related_img%>" class="form-control">
+        <input type="text" id="image" name="factValidation[related_img]" value="<%= fact.related_img%>" class="form-control">
         </div>
 
         <div class="mb-3">
             <label for="addedBy" class="form-label">Name of Knowledge Hunter: </label>
-            <input type="text" id="addedBy" value="<%=fact.added_by%>" name="addedBy" class="form-control" required>
+            <input type="text" id="addedBy" value="<%=fact.added_by%>" name="factValidation[added_by]" class="form-control" required>
             <div class="valid-feedback">Nice name</div>
             <div class="invalid-feedback">Name should be valid</div>
         </div>
@@ -52,14 +52,14 @@
         <div class="row">
             <div class="mb-3 col-md-5">
                 <label for="verified" class="form-label">Verified Status: </label>
-                <input type="text" id="verified" name="is_verified" value="<%= fact.is_verified%>" class="form-control" required>
+                <input type="text" id="verified" name="factValidation[is_verified]" value="<%= fact.is_verified%>" class="form-control" required>
                 <div class="valid-feedback">Thanks for verification</div>
                 <div class="invalid-feedback">Mention the status.</div>
             </div>
                 
             <div class="mb-3 col-md-7">
                 <label for="updated" class="form-label">Updated at: </label>
-                <input type="date" id="updated" name="updated" class="form-control" required>
+                <input type="date" id="updated" name="factValidation[updated_at]" class="form-control" required>
                 <div class="invalid-feedback">Date should be valid</div>
             </div>
         </div>
