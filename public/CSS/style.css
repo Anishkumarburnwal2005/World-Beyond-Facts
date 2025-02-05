@@ -14,7 +14,7 @@ body{
 /* navbar */
 .navbar{
     height:4.6rem;
-    background-color: white;
+    background-color: rgb(238, 237, 237);
 }
 
 /* icon */
@@ -55,7 +55,7 @@ body{
 .f-info{
     text-align: center;
     height: 6.5rem;
-    background-color: #ebebeb;
+    background-color: #d6d6d6;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -64,7 +64,7 @@ body{
 
 /* card */
 
-.card{
+.fact-card{
     border:none !important;
     margin-bottom: 2rem;
 }
@@ -130,7 +130,7 @@ body{
 /* show Page */
 
 .show_img{
-    height:50vh; 
+    height:60vh; 
 }
 
 .show-btns{

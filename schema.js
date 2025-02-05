@@ -8,8 +8,16 @@ module.exports.factSchema = Joi.object({
         data_discovered: Joi.string().required(),
         is_verified: Joi.boolean().required(),
         added_by: Joi.string().required(),
-        created_at: Joi.date().optional(),
-        updated_at: Joi.date().optional(),
+        created_at: Joi.date().optional().allow("", null),
+        updated_at: Joi.date().optional().allow("", null),
         related_img: Joi.string().allow("", null),
+    }).required(),
+});
+
+
+module.exports.reviewSchema = Joi.object({
+    review: Joi.object({
+        rating: Joi.number().min(1).max(5).required(),
+        comment: Joi.string().required(),
     }).required(),
 });

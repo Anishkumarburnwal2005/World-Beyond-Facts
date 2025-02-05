@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const Facts = require("./models/fact.js");
+//const Facts = require("./models/fact.js");
 const path = require("path");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -12,27 +12,16 @@ app.use(methodOverride("_method"));
 const ejsMate = require("ejs-mate");
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
-const wrapAsync = require("./utils/wrapAsync.js");
-const ExpressError = require("./utils/ExpressError.js");  
-const {factSchema} = require("./schema.js");
-
-let validateListing = (req, res, next) => {
-
-    if(req.body.factValidation && req.body.factValidation.is_verified){
-        req.body.factValidation.is_verified = ["yes", "true", "1"].includes(req.body.factValidation.is_verified.toLowerCase());
-    }else{
-        req.body.factValidation.is_verified = false;
-    }
-
-    //console.log(req.body.factValidation.is_verified);
-    let {error} = factSchema.validate(req.body);
-    //console.log(error);
-    if(error){
-        throw new ExpressError(400, error.details[0].message);
-    }else{
-        next();
-    }
-}
+const ExpressError = require("./utils/ExpressError.js");
+// const wrapAsync = require("./utils/wrapAsync.js");  
+// const {reviewSchema} = require("./schema.js");
+// const Reviews = require("./models/review.js");
+const session = require("express-session");
+const flash = require("connect-flash");
+const passport = require("passport");
+const localStrategy = require("passport-local");
+const User = require("./models/user.js");
+const userRoutes = require("./routes/user.js");
 
 main()
 .then(() => {
@@ -42,91 +31,48 @@ main()
     console.log(err);
 });
 
-
 async function main() {
     await mongoose.connect("mongodb://127.0.0.1:27017/factVault");
 };
 
-//Index route
-app.get("/facts",async (req, res) => {
-    const allFacts = await Facts.find({});
-    res.render("facts/index.ejs", {allFacts});
-});
+const factRoutes = require("./routes/facts.js");
+const reviewRoutes = require("./routes/review.js");
 
-//New route
-app.get("/facts/new", (req, res) => {
-    res.render("facts/new.ejs");
-});
-
-//Create route
-app.post("/facts/create", validateListing, wrapAsync(async (req, res) => {
-    const {fact, category, source, data_discovered, added_by, created_at} = req.body.factValidation;
-
-    const fact1 = new Facts({
-        fact: fact,
-        category: category,
-        source: source,
-        data_discovered: data_discovered,
-        is_verified: req.body.factValidation.is_verified,
-        added_by: added_by,
-        created_at: created_at,
-        created_at: created_at,
-    });
-
-    await fact1.save();
-    res.redirect("/facts");
-
-    // const newFact = await new Facts(req.body.fact);
-    // await newFact.save();
-    // console.log(newFact);
-    // res.redirect("/facts");
-}));
-
-//Show route
-app.get("/facts/:id", wrapAsync(async (req, res) => {
-    const {id} = req.params;
-    const fact = await Facts.findById(id);
-    res.render("facts/show.ejs", {fact}); 
-}));
-
-//Edit route
-app.get("/facts/edit/:id", wrapAsync(async (req, res) => {
-    const {id} = req.params;
-    const fact = await Facts.findById(id);
-    res.render("facts/edit.ejs", {fact});
-}));
-
-//Update route
-app.put("/facts/:id", validateListing, wrapAsync(async (req, res) => {
-    const {id} = req.params;
-    const {fact, category, source, data_discovered, added_by, updated_at, related_img} = req.body.factValidation;
-
-    await Facts.findByIdAndUpdate(id, {
-        fact: fact,
-        category: category,
-        source: source,
-        related_img: related_img,
-        data_discovered: data_discovered,
-        is_verified: req.body.factValidation.is_verified,
-        added_by: added_by,
-        updated_at: updated_at
-    });
-
-    res.redirect(`/facts/${id}`);
-}));
-
-//Delete route
-app.delete("/facts/delete/:id", wrapAsync(async (req, res) => {
-    const {id} = req.params;
-    const impFact = await Facts.findByIdAndDelete(id);
-    console.log(impFact);
-    res.redirect("/facts");
-}));
+const sessionOptions = {
+    secret: "superSecretBhai",
+    resave : false,
+    saveUninitialized: true,
+    cookie: {
+        expires: Date.now() * 10 * 24 * 60 * 60 * 1000,
+        maxAge: 10 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+    }
+};
 
 //root route
 app.get("/", (req, res) => {
     res.send("Working");
 });
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+})
+
+app.use("/facts", factRoutes);
+app.use("/facts/:id/reviews", reviewRoutes);
+app.use("/", userRoutes);
 
 app.get("*", (req, res, next) => {
     next(new ExpressError(404, "Page not found."));

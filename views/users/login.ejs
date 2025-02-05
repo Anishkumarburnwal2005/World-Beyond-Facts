@@ -1,0 +1,23 @@
+<% layout("/layout/boilerPlate.ejs")%>
+
+<div class="row">
+    <h3 class="col-6 offset-3 mt-3">Login to &nbsp;  World Beyond Facts</h3>
+    <div class="col-6 offset-3">
+        <hr>
+        <form method="POST" action="/login" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username: </label>
+                <input type="text" id="username" placeholder="enter your username" name="username"  class="form-control" required>
+                <div class="invalid-feedback">Enter a valid name!</div>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">password: </label>
+                <input type="password" id="password" placeholder="enter your password" name="password"  class="form-control" required>
+                <div class="invalid-feedback">Enter a strong password!</div>
+            </div>
+
+            <button class="btn btn-outline-primary">Login</button>
+        </form>
+    </div>
+</div>
