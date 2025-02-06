@@ -241,7 +241,7 @@ const samleFacts = [
     { 
         fact: "There are more stars in the universe than grains of sand on all the Earth's beaches.", 
         category: "Space", 
-        related_img: "https://ww2.kqed.org/quest/wp-content/uploads/sites/39/2008/11/sand_and_stars.jpg", 
+        related_img: "https://media.hswstatic.com/eyJidWNrZXQiOiJjb250ZW50Lmhzd3N0YXRpYy5jb20iLCJrZXkiOiJnaWZcL2xhdGVzdC11bml2ZXJzZS1kaXNjb3Zlcmllcy5qcGciLCJlZGl0cyI6eyJyZXNpemUiOnsid2lkdGgiOjgyOH19fQ==", 
         source: "Astronomy", 
         data_discovered: "This phenomenon was first observed during controlled studies in professional archery.",
         is_verified: true, 
@@ -313,7 +313,7 @@ const samleFacts = [
     { 
         fact: "Some turtles can breathe through their butts.", 
         category: "Biology", 
-        related_img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTY7OHOFiNp886Qx0mm4KmBarWgNA7Fvk6HvHwKEW621theUQ4_cCG8fgSgqzy1OSlUn2E&usqp=CAU", 
+        related_img: "https://pangovet.com/wp-content/uploads/2024/06/Spotted-turtle_Anna-2118_Shutterstock-1024x682.jpg", 
         source: "National Geographic", 
         data_discovered: "Certain species like the Fitzroy River turtle use cloacal respiration to extract oxygen from water.",
         is_verified: true,  
@@ -438,7 +438,7 @@ const samleFacts = [
     { 
         fact: "A group of flamingos is called a 'flamboyance'.", 
         category: "Social Structure", 
-        related_img: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fthepopularflamingo.com%2Fblogs%2Fposts%2Fwhat-is-a-flock-of-flamingos&psig=AOvVaw1PHA_XkcPETr-eu7IoaxF3&ust=1738764261127000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCIDp7ISYqosDFQAAAAAdAAAAABAE", 
+        related_img: "https://images.birdfact.com/production/colony-of-caribbean-flamingos.jpg?w=1200&h=900&q=80&auto=format&fit=crop&dm=1633126216&s=1c257c0dfdd1005728ef8b183b0f7d26", 
         source: "Ornithology", 
         data_discovered: "This term comes from the strikingly colorful appearance of flamingos in large groups.", 
         is_verified: true, 
@@ -690,7 +690,7 @@ const samleFacts = [
     { 
         fact: "Dolphins have shown an ability to reorganize their brain after injury, proving that neuroplasticity is present in marine mammals as well.", 
         category: "Neuroplasticity in Animals", 
-        related_img: "https://www.drugtargetreview.com/wp-content/uploads/shutterstock_363771053.jpg", 
+        related_img: "https://news.uchicago.edu/sites/default/files/styles/square_345/public/images/2021-08/dolphins-main.png?h=944f5cba&itok=ykkF4W5_", 
         source: "Neuroscience", 
         data_discovered: "In 2013, a study on dolphins' brain recovery after injury revealed significant changes in brain structure, proving the presence of neuroplasticity.", 
         is_verified: true, 

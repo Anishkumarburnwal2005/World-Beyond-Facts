@@ -7,7 +7,7 @@ module.exports.factSchema = Joi.object({
         source: Joi.string().required(),
         data_discovered: Joi.string().required(),
         is_verified: Joi.boolean().required(),
-        added_by: Joi.string().required(),
+        added_by: Joi.string().required().allow("", null),
         created_at: Joi.date().optional().allow("", null),
         updated_at: Joi.date().optional().allow("", null),
         related_img: Joi.string().allow("", null),

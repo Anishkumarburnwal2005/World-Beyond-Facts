@@ -6,7 +6,7 @@ const path = require("path");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({extended:true}));
-app.use(express.json());
+app.use(express.json()); 
 const methodOverride = require("method-override");
 app.use(methodOverride("_method"));
 const ejsMate = require("ejs-mate");
@@ -64,11 +64,12 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use((req, res, next) => {
+app.use((req, res, next) => {    //It is not necessary but to create a explisitly middleware but for removing bulkyness of routes we use this middleware.
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
+    res.locals.currUser = req.user;
     next();
-})
+});
 
 app.use("/facts", factRoutes);
 app.use("/facts/:id/reviews", reviewRoutes);

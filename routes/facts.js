@@ -2,27 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const wrapAsync = require("../utils/wrapAsync.js");
-const ExpressError = require("../utils/ExpressError.js");  
-const {factSchema} = require("../schema.js");
 const Facts = require("../models/fact.js");
-
-let validateListing = (req, res, next) => {
-
-    if(req.body.factValidation && req.body.factValidation.is_verified){
-        req.body.factValidation.is_verified = ["yes", "true", "1"].includes(req.body.factValidation.is_verified.toLowerCase());
-    }else{ 
-        req.body.factValidation.is_verified = false;
-    }
-
-    //console.log(req.body.factValidation.is_verified);
-    let {error} = factSchema.validate(req.body);
-    //console.log(error);
-    if(error){
-        throw new ExpressError(400, error.details[0].message);
-    }else{
-        next();
-    }
-};
+const {isLoggedIn, isOwner, validateFact} = require("../middleware.js");
 
 //Index route
 router.get("/",async (req, res) => {
@@ -31,40 +12,42 @@ router.get("/",async (req, res) => {
 });
 
 //New route
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
     res.render("facts/new.ejs");
 });
 
 //Create route
-router.post("/create", validateListing, wrapAsync(async (req, res) => {
+router.post("/create", isLoggedIn, validateFact, wrapAsync(async (req, res) => {
     //const {fact, category, source, data_discovered, added_by, created_at} = req.body.factValidation;
 
     const fact1 = new Facts(req.body.factValidation);
+    fact1.owner = req.user._id;
     await fact1.save();
     req.flash("success", "New Fact Cerated!");
     res.redirect("/facts");
 }));
 
 //Show route
-router.get("/:id", wrapAsync(async (req, res) => {
+router.get("/:id",  wrapAsync(async (req, res) => {
     const {id} = req.params;
-    const fact = await Facts.findById(id).populate("reviews");
+    const fact = await Facts.findById(id).populate({path: "reviews", populate: {path: "author"}}).populate("owner");
     if(!fact){
         req.flash("error", "Fact you requested for doesn't exist!");
         res.redirect("/facts");
     }
+    //console.log(fact.owner.username);
     res.render("facts/show.ejs", {fact}); 
 }));
 
 //Edit route
-router.get("/edit/:id", wrapAsync(async (req, res) => {
+router.get("/edit/:id", isLoggedIn, isOwner, wrapAsync(async (req, res) => {
     const {id} = req.params;
     const fact = await Facts.findById(id);
     res.render("facts/edit.ejs", {fact});
 }));
 
 //Update route
-router.put("/:id", validateListing, wrapAsync(async (req, res) => {
+router.put("/:id", isLoggedIn, isOwner, validateFact, wrapAsync(async (req, res) => {
     const {id} = req.params;
     //const {fact, category, source, data_discovered, added_by, updated_at, related_img} = req.body.factValidation;
 
@@ -74,7 +57,7 @@ router.put("/:id", validateListing, wrapAsync(async (req, res) => {
 }));
 
 //Delete route
-router.delete("/delete/:id", wrapAsync(async (req, res) => {
+router.delete("/delete/:id", isLoggedIn, isOwner, wrapAsync(async (req, res) => {
     const {id} = req.params;
     const deletedFact = await Facts.findByIdAndDelete(id);
     req.flash("success", "Fact Deleted!");

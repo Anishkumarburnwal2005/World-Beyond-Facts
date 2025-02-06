@@ -8,75 +8,75 @@
             <h3>Fact details </h3>
         </div>
         <br>
-            <div class="card col-6 offset-3 mt-3 mb-3 show-card fact-card">
+            <div class="card col-6 offset-3 mt-1 show-card fact-card">
                 <img src="<%= fact.related_img%>" class="card-img-top show_img" alt="fact_show_img">
-                <div class="card-body mt-3">
+                <p><i>User: <%= fact.owner.username%></i></p>
+                <div class="card-body">
                     <p class="card-text">
-                        <div class="mt-2 mb-2"><b>Fact: </b><%= fact.fact%><br></div>
-                        <div class="row">
-                            <div class="col-md-5 mb-2">
-                                <b>Category: </b><%= fact.category%><br>
-                            </div>
-
-                            <div class="col-md-6 mb-2">
-                                <b>Source: </b><%= fact.source %><br>
-                            </div>
-                        </div>
-                        <div class="mb-2"><b>Discovered data: </b><%= fact.data_discovered%></div>
-                        <div class="mb-2"><b>Verified: </b><%= fact.is_verified != null ? fact.is_verified : "Not Specified" %></div>
-                        <div class="mb-2"><b>Discover by: </b><%= fact.added_by%></div>
-                        <div class="mb-2"><b>Discover at: </b><%= fact.created_at ? fact.created_at.toString().split(" ").slice(0, 4).join("-") : new Date(Date.now()).toString().split(" ").slice(0, 4).join("-")%></div>
-                        <div class="mb-2"><b>Updated at: </b><%=fact.updated_at ? fact.updated_at.toString().split(" ").slice(0, 4).join("-") : "Further Modification Not Done Yet"%></div>
+                        <b>Fact: </b><%= fact.fact%><br>
+                        <b>Category: </b><%= fact.category%> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <b>Source: </b><%= fact.source %><br>
+                        <b>Discovered data: </b><%= fact.data_discovered%><br>
+                        <b>Verified: </b><%= fact.is_verified != null ? fact.is_verified : "Not Specified" %></br>
+                        <b>Discover by: </b><%= fact.added_by ? fact.added_by : "No Record Found"%></br>
+                        <b>Discover at: </b><%= fact.created_at ? fact.created_at.toString().split(" ").slice(0, 4).join("-") : new Date(Date.now()).toString().split(" ").slice(0, 4).join("-")%></br>
+                        <b>Updated at: </b><%=fact.updated_at ? fact.updated_at.toString().split(" ").slice(0, 4).join("-") : "Further Modification Not Done Yet"%></br>
                     </p>
                 </div>
             </div>
-        <br>
-        <div class="show-btns mb-5">
-            <div class="col-md-1 offset-3">
-                <form method="GET" action="/facts/edit/<%=fact._id%>">
-                    <button class="btn btn-primary">Edit</button>
-                </form>
-            </div>
+            <%if(currUser && currUser._id.equals(fact.owner._id)){%>
+            <div class="show-btns mb-2">
+                <div class="col-md-1 offset-3">
+                    <form method="GET" action="/facts/edit/<%=fact._id%>">
+                        <button class="btn btn-primary">Edit</button>
+                    </form>
+                </div>
 
-            <div class="col-md-2">
-                <form method="POST" action="/facts/delete/<%=fact._id%>?_method=Delete">
-                    <button class="btn btn-danger">Delete</button>
-                </form>
+                <div class="col-md-2">
+                    <form method="POST" action="/facts/delete/<%=fact._id%>?_method=Delete">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
             </div>
-        </div>
+            <%}%>
         
         <div class="col-8 offset-3 mt-2 mb-5">
-            <form method="POST" action="/facts/<%=fact._id%>/reviews" class="needs-validation" novalidate>
-                <hr>
-                <h2>Leave a comment: </h2>
-                <div class="mb-3 mt-3">
-                    <label for="rating" class="form-label">Ratings :</label>
-                    <input type="range" id="rating" name="review[rating]" min="1" max="5" class="form-range">
-                </div>
+            <%if(currUser){%>
+                <form method="POST" action="/facts/<%=fact._id%>/reviews" class="needs-validation" novalidate>
+                    <hr>
+                    <h2>Leave a comment: </h2>
+                    <div class="mb-3 mt-3">
+                        <label for="rating" class="form-label">Ratings :</label>
+                        <input type="range" id="rating" name="review[rating]" min="1" max="5" class="form-range">
+                    </div>
 
-                <div class="mb-3">
-                    <label for="comment" class="form-label">Comment :</label>
-                    <textarea type="text" id="comment" name="review[comment]" class="form-control" rows="5" cols="30" required></textarea>
-                    <div class="invalid-feedback">Enter a valid comment</div>
-                </div>
-                
-                <button class="btn btn-outline-success">Submit</button>
-            </form>
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Comment :</label>
+                        <textarea type="text" id="comment" name="review[comment]" class="form-control" rows="5" cols="30" required></textarea>
+                        <div class="invalid-feedback">Enter a valid comment</div>
+                    </div>
+                    
+                    <button class="btn btn-outline-success">Submit</button>
+                </form>
+            <%}%>
             <hr>
             <div class="row">
-                <h2>All Reviews</h2>
+
+            <h1>All Reviews</h1>
+
             <%for(review of fact.reviews) {%>
                 <div class="card col-5 ms-3 mb-3 mt-3" >
                     <div class="card-body">
-                        <h5 class="card-title">Anish</h5>
+                        <p class="card-title"><i>@<%=review.author.username%></i></p>
                         <p class="card-text"><%=review.comment%></p>
                         <p class="card-text"><%=review.rating%> star</p>
                     </div>
 
                     <div class="mt-2 mb-3">
-                    <form method="POST" action="/facts/<%=fact._id%>/reviews/<%=review._id%>?_method=Delete">
-                        <button class="btn btn-sm btn-outline-danger">Delete</button>
-                    </form>
+                    <%if(currUser && currUser._id.equals(review.author._id)){%>
+                        <form method="POST" action="/facts/<%=fact._id%>/reviews/<%=review._id%>?_method=Delete">
+                            <button class="btn btn-sm btn-outline-danger">Delete</button>
+                        </form>
+                    <%}%>
                     </div>
                 </div>
             <%}%>
