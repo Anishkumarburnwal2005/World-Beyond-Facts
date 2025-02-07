@@ -49,11 +49,10 @@ const factSchema = new Schema({
         }
     ],
 
-    owner:
-        {
+    owner:  {
             type: Schema.Types.ObjectId,
             ref: "User",
-        }
+    }
 });
 
 factSchema.post("findOneAndDelete", async (fact) => {
