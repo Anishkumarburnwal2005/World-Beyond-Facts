@@ -12,9 +12,8 @@ const factSchema = new Schema({
     category: String,
 
     related_img: {
-        type: String,
-        default:"https://t3.ftcdn.net/jpg/04/88/99/76/360_F_488997602_h1R6iAp1cmAvCbkDi7ittibR4ku215Pm.jpg",
-        set: (v) => v === "" ? "https://t3.ftcdn.net/jpg/04/88/99/76/360_F_488997602_h1R6iAp1cmAvCbkDi7ittibR4ku215Pm.jpg" : v,
+        url: String,
+        filename: String,
     },
 
     source: String,

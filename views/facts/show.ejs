@@ -4,12 +4,12 @@
 
 <body>
     <div class="row">
-        <div class="col-8 offset-3 mt-3">
+        <div class="col-8 offset-3 mt-1">
             <h3>Fact details </h3>
         </div>
         <br>
             <div class="card col-6 offset-3 mt-1 show-card fact-card">
-                <img src="<%= fact.related_img%>" class="card-img-top show_img" alt="fact_show_img">
+                <img src="<%= fact.related_img.url%>" class="card-img-top show_img" alt="fact_show_img">
                 <p><i>User: <%= fact.owner.username%></i></p>
                 <div class="card-body">
                     <p class="card-text">

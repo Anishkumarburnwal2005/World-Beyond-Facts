@@ -11,9 +11,12 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createNewFact = async (req, res) => {
     //const {fact, category, source, data_discovered, added_by, created_at} = req.body.factValidation;
-
+    const url = req.file.path;
+    const filename = req.file.filename;
+    console.log(url, "..", filename);
     const fact1 = new Facts(req.body.factValidation);
     fact1.owner = req.user._id;
+    fact1.related_img = {url, filename};
     await fact1.save();
     req.flash("success", "New Fact Cerated!");
     res.redirect("/facts");
@@ -41,7 +44,14 @@ module.exports.updateFact = async (req, res) => {
     const {id} = req.params;
     //const {fact, category, source, data_discovered, added_by, updated_at, related_img} = req.body.factValidation;
 
-    await Facts.findByIdAndUpdate(id, req.body.factValidation);
+    const fact = await Facts.findByIdAndUpdate(id, req.body.factValidation);
+    
+    if(typeof req.file !== "undefined"){
+        const url = req.file.path;
+        const filename = req.file.filename;
+        fact.related_img = {url, filename};
+        fact.save();
+    }
     req.flash("success", "Fact Updated!");
     res.redirect(`/facts/${id}`);
 };

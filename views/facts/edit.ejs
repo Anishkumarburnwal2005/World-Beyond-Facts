@@ -6,7 +6,7 @@
         <div class="col-7 offset-2">
             <h2 class="mt-3">Edit your Fact: </h2>
     <br>
-    <form method="POST" action="/facts/<%= fact._id%>?_method=PUT" novalidate class="needs-validation">
+    <form method="POST" action="/facts/<%= fact._id%>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
         
         <div class="mb-3">
             <label for="fact" class="form-label">Fact: </label>
@@ -36,10 +36,11 @@
             <textarea  name="factValidation[data_discovered]" rows="3" cols="30" id="data" class="form-control" required><%= fact.data_discovered%></textarea>
             <div class="invalid-feedback">Description should be in detail</div>
         </div>
-        
+
         <div class="mb-3">
-        <label for="image" class="form-label">Img_link: </label>
-        <input type="text" id="image" name="factValidation[related_img]" value="<%= fact.related_img%>" class="form-control">
+            <label for="image" class="form-label">: </label>
+            <img src="<%= fact.related_img.url%>" alt="fact_img" class="mb-3" style="height: 12rem; width: 20rem; border-radius: 1.3rem;">
+            <input type="file" id="image" name="factValidation[related_img]" class="form-control">
         </div>
 
         <div class="mb-3">
