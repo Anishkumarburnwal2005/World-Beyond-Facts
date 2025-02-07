@@ -13,7 +13,7 @@ module.exports.createNewFact = async (req, res) => {
     //const {fact, category, source, data_discovered, added_by, created_at} = req.body.factValidation;
     const url = req.file.path;
     const filename = req.file.filename;
-    console.log(url, "..", filename);
+    //console.log(url, "..", filename);
     const fact1 = new Facts(req.body.factValidation);
     fact1.owner = req.user._id;
     fact1.related_img = {url, filename};

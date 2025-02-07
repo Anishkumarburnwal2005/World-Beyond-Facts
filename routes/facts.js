@@ -13,8 +13,9 @@ router
     .route("/")
     .get(factController.index)  //Index route
     .post(isLoggedIn, upload.single("factValidation[related_img]"),validateFact, wrapAsync(factController.createNewFact)); //create route
-//New route
-router.get("/new", isLoggedIn, factController.renderNewForm);
+
+
+router.get("/new", isLoggedIn, factController.renderNewForm); //New Route
 
 router
     .route("/:id")
